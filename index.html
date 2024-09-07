@@ -6,11 +6,12 @@
     <title>Sunday Cleaning Schedule</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0tJMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/735ee6f963.js" crossorigin="anonymous"></script> <!-- FontAwesome Kit -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet"> <!-- AOS CSS -->
     <style>
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            overflow-x: hidden;
         }
 
         h1 {
@@ -21,12 +22,12 @@
             margin-bottom: 20px;
         }
 
-        /* Limit width for mobile simulation */
         .container {
             max-width: 400px;
             margin: auto;
             padding: 20px;
         }
+
 
         .cleaning-task {
             text-align: center;
@@ -36,10 +37,11 @@
             padding: 20px;
             margin-bottom: 20px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 1s ease-in-out;
         }
 
         .cleaning-task:hover {
-            transform: translateY(-5px);
+            transform: translateY(-5px) scale(1.05);
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
         }
 
@@ -59,6 +61,11 @@
             font-size: 3rem;
             color: #8B0000;
             margin-bottom: 10px;
+            animation: bounce 2s infinite;
+        }
+
+        .cleaning-task:hover .icon {
+            transform: scale(1.1);
         }
 
         .current-date {
@@ -74,44 +81,118 @@
             color: #888;
         }
 
-        /* Animations for task updates */
-        .cleaning-task p {
-            animation: fadeIn 1s ease-in-out;
+        /* Loading Animation */
+        #loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 0.5s ease;
         }
 
-        @keyframes fadeIn {
+        .loading-text {
+            font-size: 1.5rem;
+            color: #8B0000;
+            display: flex;
+            gap: 5px;
+        }
+
+        .loading-text span {
+            animation: bounceLoading 1.2s infinite;
+        }
+
+        .loading-text span:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .loading-text span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .loading-text span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        /* Bounce animation for loading text */
+        @keyframes bounceLoading {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Hide loading div after animation */
+        .hidden {
+            opacity: 0;
+            visibility: hidden;
+            display: none;
+        }
+
+        /* Bounce animation for icons */
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* Fade-in and slide-up animation for task cards */
+        @keyframes fadeInUp {
             from {
+                transform: translateY(30px);
                 opacity: 0;
             }
             to {
+                transform: translateY(0);
                 opacity: 1;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Loading Animation -->
+    <div id="loading">
+        <div class="loading-text">
+            <span>L</span><span>o</span><span>a</span><span>d</span><span>i</span><span>n</span><span>g</span>
+        </div>
+    </div>
+
     <div class="container mt-5">
-        <h1>Weekend Cleaning Schedule</h1>
-        <p id="current-date" class="current-date"></p>
-        <p class="refresh-note">This schedule automatically refreshes every Sunday.</p>
+        <h1 data-aos="fade-down">Sunday Cleaning Schedule</h1>
+        <p id="current-date" class="current-date" data-aos="fade-right"></p>
+        <p class="refresh-note" data-aos="fade-left">This schedule automatically refreshes every Sunday.</p>
 
         <div class="row justify-content-center">
-            <div class="col-12 cleaning-task">
+            <div class="col-12 cleaning-task" data-aos="zoom-in">
                 <i class="fas fa-utensils icon"></i>
                 <h5 id="name-kitchen">Carey</h5>
                 <p>Kitchen</p>
             </div>
-            <div class="col-12 cleaning-task">
+            <div class="col-12 cleaning-task" data-aos="zoom-in" data-aos-delay="100">
                 <i class="fas fa-toilet icon"></i>
                 <h5 id="name-toilets">Rob</h5>
                 <p>Toilets</p>
             </div>
-            <div class="col-12 cleaning-task">
+            <div class="col-12 cleaning-task" data-aos="zoom-in" data-aos-delay="200">
                 <i class="fas fa-couch icon"></i>
                 <h5 id="name-living-room">Daniel</h5>
                 <p>Living Room</p>
             </div>
-            <div class="col-12 cleaning-task">
+            <div class="col-12 cleaning-task" data-aos="zoom-in" data-aos-delay="300">
                 <i class="fas fa-trash icon"></i>
                 <h5 id="name-trash">Asif</h5>
                 <p>Trash</p>
@@ -120,7 +201,7 @@
     </div>
 
     <script>
-        const roommates = ['Daniel', 'Rob', 'Carey', 'Asif'];
+        const roommates = ['Carey', 'Rob', 'Daniel', 'Asif'];
 
         function assignTasks() {
             const currentDate = new Date();
@@ -131,7 +212,6 @@
                 rotatedRoommates.push(rotatedRoommates.shift());
             }
 
-            // Assign rotated roommates to the tasks
             document.getElementById('name-kitchen').textContent = rotatedRoommates[0];
             document.getElementById('name-toilets').textContent = rotatedRoommates[1];
             document.getElementById('name-living-room').textContent = rotatedRoommates[2];
@@ -145,11 +225,23 @@
         }
 
         window.onload = function() {
-            assignTasks();
-            updateDate();
+            setTimeout(() => {
+                const loading = document.getElementById('loading');
+                loading.style.opacity = '0'; // Smooth fade-out effect
+                setTimeout(() => {
+                    loading.style.display = 'none'; // Remove loading screen completely
+                }, 500); // 0.5s delay for the opacity transition to finish
+                assignTasks();
+                updateDate();
+            }, 1000); // 1-second loading delay
         }
     </script>
 
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init(); // Initialize AOS animations
+    </script>
+    <script src="https://kit.fontawesome.com/735ee6f963.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
