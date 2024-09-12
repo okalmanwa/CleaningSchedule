@@ -174,7 +174,7 @@
     <div class="container mt-5">
         <h1 data-aos="fade-down">Sunday Cleaning Schedule</h1>
         <p id="current-date" class="current-date" data-aos="fade-right"></p>
-        <p class="refresh-note" data-aos="fade-left">This schedule automatically updates every Sunday :)</p>
+        <p class="refresh-note" data-aos="fade-left">This schedule automatically updates every Thursday :)</p>
 
         <div class="row justify-content-center">
             <div class="col-12 cleaning-task" data-aos="zoom-in">
@@ -206,6 +206,7 @@
         function assignTasks() {
             const currentDate = new Date();
             const currentWeek = Math.floor(currentDate.getTime() / (1000 * 60 * 60 * 24 * 7));
+            console.log(currentDate.getTime());
 
             const rotatedRoommates = roommates.slice();
             for (let i = 0; i < currentWeek % roommates.length; i++) {
