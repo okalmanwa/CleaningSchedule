@@ -1,4 +1,4 @@
-const roommates = ['Daniel', 'Rob', 'Carey', 'Asif'];
+const roommates = ['Asif','Rob','Carey'];
 
 function assignTasks() {
     const currentDate = new Date();
@@ -12,8 +12,7 @@ function assignTasks() {
 
     document.getElementById('name-kitchen').textContent = rotatedRoommates[0];
     document.getElementById('name-toilets').textContent = rotatedRoommates[1];
-    document.getElementById('name-living-room').textContent = rotatedRoommates[2];
-    document.getElementById('name-trash').textContent = rotatedRoommates[3];
+    document.getElementById('name-full-bath').textContent = rotatedRoommates[2];
 }
 
 function updateDate() {
