@@ -1,4 +1,4 @@
-const roommates = ['Asif','Rob','Carey'];
+const roommates = ['Carey','Rob','Asif'];
 
 function assignTasks() {
     const currentDate = new Date();
