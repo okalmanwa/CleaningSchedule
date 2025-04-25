@@ -1,4 +1,4 @@
-const roommates = ['Asif', 'Rob','Nazlii','Carey'];
+const roommates = ['Rob','Asif','Nazlii','Carey'];
 
 function getCurrentWeekNumber() {
     const now = new Date();
