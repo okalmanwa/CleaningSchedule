@@ -28,34 +28,13 @@ function updateDate() {
     document.getElementById('current-date').textContent = "Today's Date: " + currentDate.toLocaleDateString(undefined, dateOptions);
 }
 
-function checkForFridayMidnight() {
-    const now = new Date();
-    const day = now.getDay(); // 0 = Sunday, 5 = Friday
-    const hours = now.getHours();
-    const minutes = now.getMinutes();
-    
-    // If it's Friday (5) and between midnight and 12:01 AM
-    if (day === 5 && hours === 0 && minutes <= 1) {
-        assignTasks();
-        updateDate();
-    }
-}
-
 function initializePage() {
     assignTasks();
     updateDate();
-    
-    // Check every minute to see if it's Friday midnight
-    setInterval(checkForFridayMidnight, 60000);
 }
 
 window.onload = function() {
-    setTimeout(() => {
-        const loading = document.getElementById('loading');
-        loading.style.opacity = '0';
-        setTimeout(() => {
-            loading.style.display = 'none';
-        }, 500);
-        initializePage();
-    }, 1000);
+    const loading = document.getElementById('loading');
+    loading.style.opacity = '0';
+    initializePage();
 }
